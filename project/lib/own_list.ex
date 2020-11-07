@@ -33,5 +33,21 @@ defmodule OwnList do
     do_max( Kernel.max( value, head ), tail )
   end
 
+  def caesar([], _n), do: []
+
+  def caesar([head | tail], n) do
+    [wraping_letters(head, n) | caesar(tail, n)]
+  end
+
+  # defp wraping_letters(base, n) do
+  #   ?a + rem(base - ?a + n, ?z - ?a + 1)
+  # end
+  defp wraping_letters(base, n) do
+    to_add = rem(n, 26)
+    cond do
+      (base + to_add) > 122 -> 97+rem(base+to_add, 123)
+      true -> base + to_add
+    end
+  end
 
 end
