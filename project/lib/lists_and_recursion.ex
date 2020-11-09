@@ -114,7 +114,53 @@ defmodule ListsAndRecursion do
   end
   defp do_list_from_to( list = [head | _tail], from, _to ) when head <= from, do: list
 
+  @spec all?(list(), function() ) :: boolean
+  def all?(list, function) do
+    check_if_all_values(list, true, function)
+  end
 
+  defp check_if_all_values([], true, _func), do: true
+  defp check_if_all_values( [head | tail], true, func ) do
+    if func.(head) do
+      check_if_all_values(tail, true, func)
+    else
+      check_if_all_values( head, false, func )
+    end
+  end
+  defp check_if_all_values( _, false, _func ), do: false
 
+  def each(list, function) do
+    apply_each(list, function, [])
+  end
+
+  defp apply_each([], _func, acum)do
+    IO.inspect(acum)
+    :ok
+  end
+  defp apply_each([head | tail], func, acum) do
+    acum = acum ++ [func.(head)]
+    apply_each( tail, func, acum)
+  end
+
+  @spec take(list(), integer()) :: []
+  def take(list, number) when is_integer(number) do
+    take_only_from_list(list, number, [])
+  end
+
+  def list_lenght([]), do: 0
+  def list_lenght([_head | tail]) when tail == [], do: 1
+  def list_lenght([_head | tail]) do
+    1+list_lenght(tail)
+  end
+
+  defp take_only_from_list([], _number, acum), do: acum
+  defp take_only_from_list([head | tail], number, acum) do
+    if list_lenght(acum) < number do
+      new = acum ++ [head]
+      take_only_from_list(tail, number, new)
+    else
+      acum
+    end
+  end
 
 end
