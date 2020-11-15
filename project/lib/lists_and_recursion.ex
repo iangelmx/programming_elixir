@@ -19,8 +19,9 @@ defmodule ListsAndRecursion do
   """
   @spec reduce(list(), any, function()) :: any
   def reduce([], value, _func), do: value
-  def reduce( [head | tail], value, func ) do
-    reduce( tail, func.(head, value), func )
+
+  def reduce([head | tail], value, func) do
+    reduce(tail, func.(head, value), func)
   end
 
   @doc """
@@ -36,8 +37,9 @@ defmodule ListsAndRecursion do
   """
   @spec mapsum(list(), any, function()) :: number()
   def mapsum([], value, _func), do: value
+
   def mapsum([head | tail], value, func) do
-    mapsum( tail, func.( head )+value, func )
+    mapsum(tail, func.(head) + value, func)
   end
 
   @doc """
@@ -55,10 +57,10 @@ defmodule ListsAndRecursion do
   @spec max(list()) :: number()
   def max([head | tail]), do: do_max(head, tail)
 
-  defp do_max( value, [] ), do: value
+  defp do_max(value, []), do: value
 
-  defp do_max( value, [head | tail] ) do
-    do_max( Kernel.max( value, head ), tail )
+  defp do_max(value, [head | tail]) do
+    do_max(Kernel.max(value, head), tail)
   end
 
   @doc """
@@ -71,7 +73,7 @@ defmodule ListsAndRecursion do
       iex>caesar('cat',1)
       'dbs'
   """
-  @spec caesar( charlist() , any) :: charlist()
+  @spec caesar(charlist(), any) :: charlist()
   def caesar([], _n), do: []
 
   def caesar([head | tail], n) do
@@ -80,8 +82,9 @@ defmodule ListsAndRecursion do
 
   defp wraping_letters(base, n) do
     to_add = rem(n, 26)
+
     cond do
-      (base + to_add) > 122 -> 97+rem(base+to_add, 123)
+      base + to_add > 122 -> 97 + rem(base + to_add, 123)
       true -> base + to_add
     end
   end
@@ -105,41 +108,45 @@ defmodule ListsAndRecursion do
     do_list_from_to([], from, to)
   end
 
-  defp checks_higher(a, b) when a < b, do: {a,b}
-  defp checks_higher(a, b) when b < a, do: {b,a}
+  defp checks_higher(a, b) when a < b, do: {a, b}
+  defp checks_higher(a, b) when b < a, do: {b, a}
   defp do_list_from_to([], from, to), do: do_list_from_to([to], from, to)
 
-  defp do_list_from_to( [head | tail], from, to ) when head > from do
-    do_list_from_to([ head-1, head | tail ], from, to)
+  defp do_list_from_to([head | tail], from, to) when head > from do
+    do_list_from_to([head - 1, head | tail], from, to)
   end
-  defp do_list_from_to( list = [head | _tail], from, _to ) when head <= from, do: list
 
-  @spec all?(list(), function() ) :: boolean
+  defp do_list_from_to(list = [head | _tail], from, _to) when head <= from, do: list
+
+  @spec all?(list(), function()) :: boolean
   def all?(list, function) do
     check_if_all_values(list, true, function)
   end
 
   defp check_if_all_values([], true, _func), do: true
-  defp check_if_all_values( [head | tail], true, func ) do
+
+  defp check_if_all_values([head | tail], true, func) do
     if func.(head) do
       check_if_all_values(tail, true, func)
     else
-      check_if_all_values( head, false, func )
+      check_if_all_values(head, false, func)
     end
   end
-  defp check_if_all_values( _, false, _func ), do: false
+
+  defp check_if_all_values(_, false, _func), do: false
 
   def each(list, function) do
     apply_each(list, function, [])
   end
 
-  defp apply_each([], _func, acum)do
+  defp apply_each([], _func, acum) do
     IO.inspect(acum)
     :ok
   end
+
   defp apply_each([head | tail], func, acum) do
     acum = acum ++ [func.(head)]
-    apply_each( tail, func, acum)
+    apply_each(tail, func, acum)
   end
 
   @spec take(list(), integer()) :: []
@@ -149,11 +156,13 @@ defmodule ListsAndRecursion do
 
   def list_lenght([]), do: 0
   def list_lenght([_head | tail]) when tail == [], do: 1
+
   def list_lenght([_head | tail]) do
-    1+list_lenght(tail)
+    1 + list_lenght(tail)
   end
 
   defp take_only_from_list([], _number, acum), do: acum
+
   defp take_only_from_list([head | tail], number, acum) do
     if list_lenght(acum) < number do
       new = acum ++ [head]
@@ -162,5 +171,4 @@ defmodule ListsAndRecursion do
       acum
     end
   end
-
 end
