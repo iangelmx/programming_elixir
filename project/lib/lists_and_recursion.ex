@@ -11,10 +11,10 @@ defmodule ListsAndRecursion do
 
   ## Examples:
 
-      iex> reduce([1,2,3], 0, &(&1+&2))
+      iex> ListsAndRecursion.reduce([1,2,3], 0, &(&1+&2))
       6
 
-      iex> reduce([1,2], 1, fn a,b -> a*b end)
+      iex> ListsAndRecursion.reduce([1,2], 1, fn a,b -> a*b end)
       2
   """
   @spec reduce(list(), any, function()) :: any
@@ -32,7 +32,7 @@ defmodule ListsAndRecursion do
 
   ## Examples:
 
-      iex> mapsum([1,2,3], 1, &(&1*&1))
+      iex> ListsAndRecursion.mapsum([1,2,3], 0, &(&1*&1))
       14
   """
   @spec mapsum(list(), any, function()) :: number()
@@ -48,10 +48,10 @@ defmodule ListsAndRecursion do
 
   ## Examples:
 
-      iex>max([1,2,3,4,5])
+      iex>ListsAndRecursion.max([1,2,3,4,5])
       5
 
-      iex>max([1,2,30,4,5])
+      iex>ListsAndRecursion.max([1,2,30,4,5])
       30
   """
   @spec max(list()) :: number()
@@ -70,8 +70,8 @@ defmodule ListsAndRecursion do
 
   ## Examples:
 
-      iex>caesar('cat',1)
-      'dbs'
+      iex>ListsAndRecursion.caesar('cat',1)
+      'dbu'
   """
   @spec caesar(charlist(), any) :: charlist()
   def caesar([], _n), do: []
@@ -96,10 +96,10 @@ defmodule ListsAndRecursion do
 
   ## Examples:
 
-      iex> span(5, 10)
+      iex> ListsAndRecursion.span(5, 10)
       [5,6,7,8,9,10]
 
-      iex> span(5, -1)
+      iex> ListsAndRecursion.span(5, -1)
       [-1,0,1,2,3,4,5]
   """
   @spec span(integer(), integer()) :: list()
