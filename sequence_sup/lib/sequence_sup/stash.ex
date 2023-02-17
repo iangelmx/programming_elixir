@@ -7,16 +7,19 @@ defmodule SequenceSup.Stash do
     GenServer.start_link(__MODULE__, initial_number, name: @me)
   end
 
+  @spec get :: any
   def get() do
     GenServer.call(@me, { :get })
   end
 
+  @spec update(number()) :: :ok
   def update(new_number) do
     GenServer.cast(@me, { :update, new_number })
   end
 
   # Server implementation
 
+  @spec init(any) :: {:ok, any}
   def init(initial_number) do
     { :ok, initial_number }
   end
