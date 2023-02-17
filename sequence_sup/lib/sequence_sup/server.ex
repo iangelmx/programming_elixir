@@ -1,6 +1,8 @@
 defmodule SequenceSup.Server do
   use GenServer
   alias SequenceSup.Impl
+  alias SequenceSup.Stash
+
   #####
   # External API
 
@@ -19,8 +21,8 @@ defmodule SequenceSup.Server do
   #####
   # GenServer implementation
 
-  def init(initial_number) do
-    { :ok, initial_number }
+  def init(_) do
+    { :ok, SequenceSup.Stash.get() }
   end
 
   def handle_call(:next_number, _from, current_number) do
@@ -31,6 +33,9 @@ defmodule SequenceSup.Server do
     { :noreply, Impl.increment(current_number,delta)}
   end
 
+  def terminate(_reason, current_number) do
+    Stash.update(current_number)
+  end
   def format_status(_reason, [ _pdict, state ]) do
     [data: [{'State', "My current state is '#{inspect state}', and I'm happy"}]]
   end
